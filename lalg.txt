@@ -1,4 +1,4 @@
-{aqui te/////////////////rmina o programa}
+{aqui termina o programa}
 /* declaracao de variaveis */
 /*  corpo * principal / */
 program teste
