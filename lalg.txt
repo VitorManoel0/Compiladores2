@@ -1,0 +1,20 @@
+{aqui te/////////////////rmina o programa}
+/* declaracao de variaveis */
+/*  corpo * principal / */
+program teste
+
+	real : a,b;
+	integer : c, d;
+
+/*  corpo * principal / */
+begin 
+	read(a); {real}
+	read(c); {integer}
+  b := a * a + a;
+  d := 2*c + c;
+  write(a);
+  write(b);
+  write(c);
+  write(d)
+  {aqui termina o programa}
+end.
