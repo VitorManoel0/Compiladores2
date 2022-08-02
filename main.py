@@ -3,7 +3,6 @@ from lexico import Lexico
 
 def main():
     token = Lexico('lalg.txt')
-    a = 1
     while True:
         a = (token.splitTokens())
         if a:
