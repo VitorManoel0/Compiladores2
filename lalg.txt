@@ -1,9 +1,8 @@
-{aqui termina o programa}
 /* declaracao de variaveis */
 /*  corpo * principal / */
 program teste
 
-	real : a,b;
+	real: a,b;
 	integer : c, d;
 
 /*  corpo * principal / */

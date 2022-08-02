@@ -3,9 +3,13 @@ from lexico import Lexico
 
 def main():
     token = Lexico('lalg.txt')
-    for i in range(10):
-        print(token.splitTokens())
-
+    a = 1
+    while True:
+        a = (token.splitTokens())
+        if a:
+            print(a)
+        else:
+            break
 
 
 if __name__ == '__main__':

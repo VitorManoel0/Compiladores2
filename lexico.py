@@ -12,39 +12,97 @@ def splitManual(line, caracter):
     return lineSplited
 
 
+def reservedWord(word):
+    reserved = ['program', 'real', 'integer', 'begin', 'write', 'end']
+    if word in reserved:
+        return 'reserved', word
+    else:
+        return 'ident', word
+
+
 class Lexico:
     def __init__(self, arq):
         with open(arq, 'r') as f:
             self.text = f.read()
+        self.index = 0
+        self.word = ''
 
     def splitTokens(self):
-        for count, letter in enumerate(self.text):
+        while True:
+            try:
+                letter = self.text[self.index]
+            except IndexError:
+                return None
+
+            # Remove comments
             if letter == '{':
-                while self.text[count] != '}':
-                    self.deallocateFromString(count)
-                self.deallocateFromString(count)
-            elif letter == '/' and self.text[count+1] == '*':
-                self.deallocateFromString(count)
-                self.deallocateFromString(count)
+                while self.text[self.index] != '}':
+                    self.deallocateFromString(self.index)
+                self.deallocateFromString(self.index)
+            elif letter == '/' and self.text[self.index + 1] == '*':
+                self.deallocateFromString(self.index)
+                self.deallocateFromString(self.index)
                 while True:
-                    if self.text[count] == '*' and self.text[count+1] == '/':
-                        self.deallocateFromString(count)
-                        self.deallocateFromString(count)
+                    if self.text[self.index] == '*' and self.text[self.index + 1] == '/':
+                        self.deallocateFromString(self.index)
+                        self.deallocateFromString(self.index)
                         break
                     else:
-                        self.deallocateFromString(count)
-            elif letter == '*':
-                self.deallocateFromString(count)
-                return 'op_mul', '*'
-            elif letter == '/':
-                self.deallocateFromString(count)
-                return 'op_mul', '/'
-            elif letter == '+':
-                self.deallocateFromString(count)
-                return 'op_ad', '+'
-            elif letter == '-':
-                self.deallocateFromString(count)
-                return 'op_ad', '-'
+                        self.deallocateFromString(self.index)
+
+            # Return symbols
+            elif letter in ':=/*-+;.,()':
+                if self.word != '':
+                    a = self.word
+                    self.word = ''
+                    return reservedWord(a)
+                elif letter == ':' and self.text[self.index + 1] == '=':
+                    self.index += 2
+                    return 'symbol', ':='
+                elif letter == '*':
+                    self.index += 1
+                    return 'symbol', '*'
+                elif letter == '/':
+                    self.index += 1
+                    return 'symbol', '/'
+                elif letter == '+':
+                    self.index += 1
+                    return 'symbol', '+'
+                elif letter == '-':
+                    self.index += 1
+                    return 'symbol', '-'
+                elif letter == ':':
+                    self.index += 1
+                    return 'symbol', ':'
+                elif letter == ';':
+                    self.index += 1
+                    return 'symbol', ';'
+                elif letter == '.':
+                    self.index += 1
+                    return 'symbol', '.'
+                elif letter == ',':
+                    self.index += 1
+                    return 'symbol', ','
+                elif letter == '(':
+                    self.index += 1
+                    return 'symbol', '('
+                elif letter == ')':
+                    self.index += 1
+                    return 'symbol', ')'
+
+            else:
+                if letter != ' ' and letter != '' and letter != '\n' and letter != '\t':
+                    self.index += 1
+                    self.word += letter
+                else:
+                    if self.word != '' and self.word != ' ':
+                        if letter == '\n' or letter == '\t':
+                            self.deallocateFromString(self.index)
+                        a = self.word
+                        self.word = ''
+                        return reservedWord(a)
+                    else:
+                        self.index += 1
 
     def deallocateFromString(self, index):
         a = []
