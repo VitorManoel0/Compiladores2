@@ -19,7 +19,9 @@ class Sintatic:
         self.grammar = {}
         self.table = {}
         self.symbols = [':=', '/', '*', '-', '+', ';', '.', '(', ')']
-        self.reservedWord = ['program', 'real', 'integer', 'begin', 'write', 'end', 'ident', 'read']
+        self.reservedWord = ['program', 'real', 'integer', 'begin', 'write', 'end', 'ident', 'read', 'numero_int', 'numero_real']
+        self.expression = ''
+        self.stack = ['program']
 
     def configFistAndFollow(self):
         with open('firstfollow.txt', 'r') as f:
@@ -42,13 +44,13 @@ class Sintatic:
         with open('lalg-rules.txt', 'r') as f:
             for line in f:
                 line = splitManual(line, ' ')
-                if line[0] not in self.table.keys():
-                    self.table[line[0]] = {}
+
+                self.createIndex(line[0])
 
                 if line[2] in self.reservedWord or line[2] in self.symbols:
                     self.table[line[0]][line[2]] = line
 
-                if line[2] == '&':
+                elif line[2] == '&':
                     for j in self.firstFollow['FOLLOW'][line[0]]:
                         if line[0] not in self.table[line[0]].keys():
                             self.table[line[0]][j] = line
@@ -61,3 +63,21 @@ class Sintatic:
                                     self.table[line[0]][j] = line
                         else:
                             self.table[line[0]][i] = line
+
+        print(self.table)
+
+    def createIndex(self, name):
+        if name not in self.table.keys():
+            self.table[name] = {}
+
+    # def validateExpression(self, expression):
+    #     while True:
+    #         if self.stack:
+    #             break
+    #         if expression[1] == self.stack[-1]:
+    #             self.stack.pop()
+    #             break
+    #         for i in self.table[self.stack[-1]][expression[-1]][2::]:
+    #             self.stack.append(i)
+    #
+    #     print(self.stack)

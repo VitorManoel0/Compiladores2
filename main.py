@@ -4,16 +4,16 @@ from sintatic import Sintatic
 
 def main():
     token = Lexico('lalg.txt')
-    # while True:
-    #     a = (token.splitTokens())
-    #     if a:
-    #         print(a)
-    #     else:
-    #         break
-
     sintatic = Sintatic()
     sintatic.configFistAndFollow()
     sintatic.chargeTable()
+
+    # while True:
+    #     a = (token.splitTokens())
+    #     if a:
+    #         sintatic.validateExpression(a)
+    #     else:
+    #         break
 
 
 if __name__ == '__main__':

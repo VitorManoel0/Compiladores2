@@ -13,7 +13,7 @@ def splitManual(line, caracter):
 
 
 def reservedWord(word):
-    reserved = ['program', 'real', 'integer', 'begin', 'write', 'end']
+    reserved = ['program', 'real', 'integer', 'begin', 'write', 'end', 'read']
     if word in reserved:
         return 'reserved', word
     else:
