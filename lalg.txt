@@ -1,12 +1,10 @@
-/* declaracao de variaveis */
-/*  corpo * principal / */
 program teste
-
-	real: a,b;
+/* declaracao de variaveis */
+	real : a,b;
 	integer : c, d;
 
 /*  corpo * principal / */
-begin 
+begin
 	read(a); {real}
 	read(c); {integer}
   b := a * a + a;
