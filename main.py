@@ -8,12 +8,12 @@ def main():
     sintatic.configFistAndFollow()
     sintatic.chargeTable()
 
-    # while True:
-    #     a = (token.splitTokens())
-    #     if a:
-    #         sintatic.validateExpression(a)
-    #     else:
-    #         break
+    while True:
+        a = (token.splitTokens())
+        if a:
+            sintatic.validateExpression(a)
+        else:
+            break
 
 
 if __name__ == '__main__':

@@ -21,7 +21,7 @@ class Sintatic:
         self.symbols = [':=', '/', '*', '-', '+', ';', '.', '(', ')']
         self.reservedWord = ['program', 'real', 'integer', 'begin', 'write', 'end', 'ident', 'read', 'numero_int', 'numero_real']
         self.expression = ''
-        self.stack = ['program']
+        self.stack = ['<programa>', '$']
 
     def configFistAndFollow(self):
         with open('firstfollow.txt', 'r') as f:
@@ -64,20 +64,20 @@ class Sintatic:
                         else:
                             self.table[line[0]][i] = line
 
-        print(self.table)
-
     def createIndex(self, name):
         if name not in self.table.keys():
             self.table[name] = {}
 
-    # def validateExpression(self, expression):
-    #     while True:
-    #         if self.stack:
-    #             break
-    #         if expression[1] == self.stack[-1]:
-    #             self.stack.pop()
-    #             break
-    #         for i in self.table[self.stack[-1]][expression[-1]][2::]:
-    #             self.stack.append(i)
-    #
-    #     print(self.stack)
+    def validateExpression(self, expression):
+        while True:
+            if self.stack[0] == '$':
+                break
+
+            if expression[1] == self.stack[-1]:
+                self.stack.pop()
+                break
+
+            for i in self.table[self.stack[-1]][expression[-1]][2::]:
+                self.stack.append(i)
+
+        print(self.stack)
