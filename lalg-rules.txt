@@ -4,7 +4,7 @@
 <dc> => &
 <mais_dc> => ; <dc>
 <mais_dc> => &
-<dc_v> =>  <tipo_var> : <variaveis>
+<dc_v> => <tipo_var> : <variaveis>
 <tipo_var> => real
 <tipo_var> => integer
 <variaveis> => ident <mais_var>

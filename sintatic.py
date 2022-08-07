@@ -19,7 +19,8 @@ class Sintatic:
         self.grammar = {}
         self.table = {}
         self.symbols = [':=', '/', '*', '-', '+', ';', '.', '(', ')']
-        self.reservedWord = ['program', 'real', 'integer', 'begin', 'write', 'end', 'ident', 'read', 'numero_int', 'numero_real']
+        self.reservedWord = ['program', 'real', 'integer', 'begin', 'write', 'end', 'ident', 'read', 'numero_int',
+                             'numero_real']
         self.expression = ''
         self.stack = ['<programa>', '$']
 
@@ -69,15 +70,33 @@ class Sintatic:
             self.table[name] = {}
 
     def validateExpression(self, expression):
-        while True:
-            if self.stack[0] == '$':
-                break
+        try:
+            if expression[0] == 'ident':
+                keyCompair = 'ident'
 
-            if expression[1] == self.stack[-1]:
-                self.stack.pop()
-                break
+            elif expression[0] != 'ident':
+                keyCompair = expression[1]
 
-            for i in self.table[self.stack[-1]][expression[-1]][2::]:
-                self.stack.append(i)
+            elif expression[0] == 'reserved':
+                keyCompair = expression[1]
 
-        print(self.stack)
+            while True:
+                if self.stack == '&':
+                    self.stack.pop(0)
+
+                if self.stack[0] == '$':
+                    break
+
+                if keyCompair == self.stack[0]:
+                    self.stack.pop(0)
+                    break
+
+                else:
+                    a = self.table[self.stack[0]][keyCompair][2::]
+                    if a[0] == '&':
+                        a.pop(0)
+                    self.stack.pop(0)
+                    a.extend(self.stack)
+                    self.stack = a
+        except:
+            raise TypeError("Erro sintatico")

@@ -11,6 +11,7 @@ def main():
     while True:
         a = (token.splitTokens())
         if a:
+            # print(a)
             sintatic.validateExpression(a)
         else:
             break
