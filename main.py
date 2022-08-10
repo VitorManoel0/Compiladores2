@@ -17,7 +17,8 @@ def main():
             stack.append(a)
         else:
             break
-    semantic.createLanguages(stack)
+    language = semantic.createLanguages(stack)
+    print(language)
 
 
 if __name__ == '__main__':

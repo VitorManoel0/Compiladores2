@@ -12,161 +12,10 @@ class Semantic:
     def createLanguages(self, stack):
         self.input = stack
         self.programa()
-        for i in self.C:
-            print(i)
-
-    def CRCT(self, k):
-        """
-        :param k: element
-
-        Carrega constante k no topo da pilha D
-        """
-        self.stack.append(k)
-
-    def CRVL(self, n):
-        """
-        :param n: endereço
-
-        Carrega valor de endereço n no topo da pilha D
-        """
-
-        self.stack.append(self.stack[n])
-
-    def SOMA(self):
-        """
-        Soma o elemento antecessor com o topo da pilha; desempilha os dois e empilha o resultado
-        """
-        a = self.stack.pop(-1)
-        b = self.stack.pop(-1)
-        self.stack.append(a + b)
-
-    def SUBT(self):
-        """
-        Subtrai o antecessor pelo elemento do topo
-        """
-        a = self.stack.pop(-1)
-        b = self.stack.pop(-1)
-        self.stack.append(b - a)
-
-    def MULT(self):
-        """
-        Multiplica elemento antecessor pelo elemento do topo
-        """
-        a = self.stack.pop(-1)
-        b = self.stack.pop(-1)
-        self.stack.append(b * a)
-
-    def DIVI(self):
-        """
-        Divide o elemento antecessor pelo elemento do topo
-        """
-        a = self.stack.pop(-1)
-        b = self.stack.pop(-1)
-        self.stack.append(b / a)
-
-    def INVE(self):
-        """
-        Inverte sinal do topo
-        """
-        a = self.stack.pop(-1)
-        self.stack.append(-1 * a)
-
-    def CONJ(self):
-        """
-        Conjunção de valores lógicos. F=0; V=1
-        """
-        a = self.stack.pop(-1)
-        b = self.stack.pop(-1)
-        self.stack.append(int(a == b))
-
-    def DISJ(self):
-        """
-        Disjunção de valores lógicos
-        """
-        a = self.stack.pop(-1)
-        b = self.stack.pop(-1)
-        self.stack.append(int(a or b))
-
-    def NEGA(self):
-        """
-        Negação lógica
-        """
-        a = self.stack.pop(-1)
-        self.stack.append(-1 * a)
-
-    def CPME(self):
-        """
-        Comparação de menor entre o antecessor e o topo
-        """
-        a = self.stack.pop(-1)
-        b = self.stack.pop(-1)
-        self.stack.append(int(b < a))
-
-    def CPMA(self):
-        """
-        Comparação de maior
-        """
-        a = self.stack.pop(-1)
-        b = self.stack.pop(-1)
-        self.stack.append(int(b > a))
-
-    def CPIG(self):
-        """
-        Comparação de igualdade
-        """
-        a = self.stack.pop(-1)
-        b = self.stack.pop(-1)
-        self.stack.append(int(b == a))
-
-    def CDES(self):
-        """
-        Comparação de desigualdade
-        """
-        a = self.stack.pop(-1)
-        b = self.stack.pop(-1)
-        self.stack.append(int(b != a))
-
-    def CPMI(self):
-        """
-        Comparação menor-igual
-        """
-        a = self.stack.pop(-1)
-        b = self.stack.pop(-1)
-        self.stack.append(int(b <= a))
-
-    def CMAI(self):
-        """
-        Comparação maior-igual
-        """
-        a = self.stack.pop(-1)
-        b = self.stack.pop(-1)
-        self.stack.append(int(b >= a))
-
-    def ARMZ(self, n):
-        """
-        :param n: Endereço
-        Armazena o topo da pilha no endereço n de D
-        """
-        self.stack[n] = self.stack.pop(-1)
-
-    def DSVI(self, p):
-        """
-        :param p: Endereço
-        Desvio incondicional para a instrução de endereço p
-        i: Aponta para próxima instrução a ser executada
-        """
-        i = p
-        return i
-
-    def DSVF(self, p):
-        """
-        :param p: Endereço
-        Desvio incondicional para a instrução de endereço p
-        i: Aponta para próxima instrução a ser executada
-        """
-        if self.stack.pop(-1):
-            i = p
-            return i
+        with open('output.txt', 'w') as f:
+            for i in self.C:
+                f.write(i + '\n')
+        return self.C
 
     def programa(self):
         self.C.append('INPP')
@@ -245,11 +94,11 @@ class Semantic:
 
         else:
             if self.input[self.loc][1] not in self.reservedWord and self.input[self.loc][1] in self.tableSymbol.keys():
-                ident = self.input[self.loc][1]
+                a = self.input[self.loc][1]
                 self.loc += 1
                 self.loc += 1
                 self.expressao()
-                self.C.append(f'ARMZ {self.tableSymbol[ident][2]}')
+                self.C.append(f'ARMZ {self.tableSymbol[a][2]}')
 
     def expressao(self):
         self.termo()
@@ -274,7 +123,8 @@ class Semantic:
             self.loc += 1
         else:
             if self.input[self.loc][0] == 'ident':
-                if self.input[self.loc][1] not in self.reservedWord and self.input[self.loc][1] in self.tableSymbol.keys():
+                if self.input[self.loc][1] not in self.reservedWord and self.input[self.loc][1] in \
+                        self.tableSymbol.keys():
                     self.C.append(F'CRVL {self.tableSymbol[self.input[self.loc][1]][2]}')
                 else:
                     self.C.append(f'CRVL {self.input[self.loc][1]}')
@@ -304,7 +154,7 @@ class Semantic:
             if op_mul == '*':
                 self.C.append('MULT')
             else:
-                self.C.input('DIVI')
+                self.C.append('DIVI')
             self.mais_fatores()
 
     def op_mul(self):
