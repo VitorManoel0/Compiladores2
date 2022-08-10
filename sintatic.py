@@ -99,4 +99,5 @@ class Sintatic:
                     a.extend(self.stack)
                     self.stack = a
         except:
-            raise TypeError("Erro sintatico")
+            raise SystemExit("Erro sintatico: " + expression[1])
+
