@@ -1,6 +1,7 @@
 from lexico import Lexico
 from sintatic import Sintatic
 from semantic import Semantic
+from interpreter import Interpreter
 
 
 def main():
@@ -18,8 +19,9 @@ def main():
         else:
             break
     language = semantic.createLanguages(stack)
-    print(language)
-
+    # print(language)
+    interpreter = Interpreter()
+    interpreter.readLanguages()
 
 if __name__ == '__main__':
     main()

@@ -125,9 +125,13 @@ class Semantic:
             if self.input[self.loc][0] == 'ident':
                 if self.input[self.loc][1] not in self.reservedWord and self.input[self.loc][1] in \
                         self.tableSymbol.keys():
-                    self.C.append(F'CRVL {self.tableSymbol[self.input[self.loc][1]][2]}')
+                    self.C.append(f'CRVL {self.tableSymbol[self.input[self.loc][1]][2]}')
                 else:
-                    self.C.append(f'CRVL {self.input[self.loc][1]}')
+                    try:
+                        a = float(self.input[self.loc][1])
+                        self.C.append(f'CRCT {a}')
+                    except:
+                        self.C.append(f'CRVL {self.input[self.loc][1]}')
                 if op_un:
                     self.C.append('INVE')
                 self.loc += 1
